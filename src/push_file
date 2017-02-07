@@ -1,0 +1,28 @@
+#!/bin/sh
+
+print_help () {
+  echo "The command store files to clipboard or display as base64 string." 
+  echo " Usage: " 
+  echo "  push_file [-d] file1 file2 ..."
+  echo " Options:"  
+  echo "  -d    display on screen instead of copying to clipboard." 
+  echo "  file  file or folder name. Specified path preserved."
+}
+
+if [ -z $PP_PUSH_CMD ]; then
+  PP_PUSH_CMD="xsel -i --clipboard"  
+fi
+
+case $1 in
+    -d|--display)
+    PP_PUSH_CMD="cat"
+    shift # past argument
+    ;;
+    -h|--help)
+    print_help
+    exit 0
+    ;;
+esac
+
+tar -cz $@ | base64 | $PP_PUSH_CMD
+

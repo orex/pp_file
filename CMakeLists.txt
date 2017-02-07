@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.0)
+
+project(pp_files LANGUAGES)
+
+install(PROGRAMS src/push_file src/pop_file DESTINATION bin)
+
+set(CPACK_GENERATOR "STGZ;RPM;DEB;TGZ")
+
+set(CPACK_PACKAGE_CONTACT "Kirill Okhotnikov")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.md")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+
+set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "all")
+set(CPACK_DEBIAN_PACKAGE_SECTION "utils")
+
+set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "xsel (>= 1.2.0) | xclip (>= 0.12)")
+
+include(CPack)

@@ -1,0 +1,37 @@
+#!/bin/sh
+
+print_help () {
+  echo "Restore files pushed by push_file command." 
+  echo " Usage: "
+  echo "  pop_file [-i]"
+  echo " Options: "
+  echo "  -i read file from stdin. Default read from clipboard." 
+}
+
+get_input () {
+  while read line
+  do
+    if [ -z $line ]; then
+      break
+    fi
+    echo $line
+  done
+}
+
+if [ -z $PP_POP_CMD ]; then
+  PP_POP_CMD="xsel -o --clipboard"  
+fi
+
+case $1 in
+    -i|--input)
+    PP_POP_CMD="get_input"
+    shift # past argument
+    ;;
+    -h|--help)
+    print_help
+    exit 0
+    ;;
+esac
+
+
+$PP_POP_CMD | base64 -d | tar -xvz
